@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,48 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'forms';
+  @ViewChild('f') signupForm: NgForm;
+
+  defaultQuestion="pet";
+  answer="";
+  genders=['male','female'];
+  submitted=false;
+
+  user={
+    username:'',
+    email:'',
+    secret:"",
+    answer:'',
+    gender:''
+  }
+
+  //setting default values in form
+  suggestUserName() {
+    const suggestedName = 'Superuser';
+    this.signupForm.form.patchValue({
+      userData: {
+        username: suggestedName,
+        email: ""
+      },
+      secret:"pet",
+      questionAnswer:"",
+      gender:"male"
+    });
+
+  }
+  
+
+  onSubmit(){
+    this.submitted=true;
+    this.user.username=this.signupForm.value.userData.username;
+    this.user.email=this.signupForm.value.userData.email;
+    this.user.secret=this.signupForm.value.secret;
+    this.user.answer=this.signupForm.value.questionAnswer;
+    this.user.gender=this.signupForm.value.gender;
+  }
+
+  onReset(){
+    this.signupForm.reset();
+  }
+
 }
